@@ -122,7 +122,7 @@ La seccion de video mantiene:
 
 - Animacion por scroll.
 - Indicador de avance visual.
-- Frame activo.
+- Metricas principales del tramo activo.
 - Etapas narrativas que cambian segun el avance:
   - Diagnostico.
   - Intervencion.
@@ -130,6 +130,32 @@ La seccion de video mantiene:
   - Gestion vial.
 
 No hay barra manual visible ni controles tipo reproductor.
+
+### Interactividad avanzada sobre el video
+
+Se amplio la experiencia del video para que todo el relato aparezca durante el scroll, usando un solo video de fondo en canvas.
+
+Elementos agregados:
+
+- Seccion de video mas larga para permitir una narrativa por tramos.
+- Titular y texto principal dinamicos segun la escena activa.
+- Metricas dinamicas que cambian durante el avance.
+- Ventanas flotantes sobre el video con cifras clave.
+- Marcadores visuales sobre el recorrido.
+- Puntos de progreso no interactivos para orientar el avance.
+- Seis escenas narrativas:
+  - Brecha inicial.
+  - Estado de la red vecinal.
+  - Mejoramiento y rehabilitacion.
+  - Mantenimiento vial.
+  - Planes viales provinciales participativos.
+  - Cierre institucional PATS.
+
+Decision de interaccion:
+
+- La experiencia sigue siendo scroll-driven.
+- No se agregaron controles manuales tipo reproductor.
+- Las ventanas aparecen y desaparecen automaticamente segun el porcentaje de scroll dentro del video.
 
 ## Estado de Git
 
@@ -145,6 +171,10 @@ Commits realizados:
   - Retiro de la barra/scrubber.
   - Ajuste de narrativa segun la presentacion PATS.
   - Incorporacion de cifras y problema vial.
+
+- `cc63165 Document PATS project progress`
+  - Creacion de esta bitacora.
+  - Versionado del PDF de referencia.
 
 ## Servidor local
 
@@ -172,4 +202,3 @@ python -m http.server 8765
 - Evaluar uso de imagenes reales de proyectos del PDF o material institucional en secciones antes/despues.
 - Afinar textos con tono oficial si la web se usara en una presentacion formal.
 - Revisar rendimiento si se agregan mas frames o resolucion superior a 720p.
-
