@@ -272,6 +272,117 @@
       line-height: 1.72;
     }
 
+    .problem-board {
+      display: grid;
+      grid-template-columns: minmax(260px, .9fr) minmax(320px, 1.1fr);
+      gap: 28px;
+      align-items: stretch;
+      margin-top: 26px;
+    }
+
+    .problem-photo {
+      min-height: 500px;
+      border-radius: 8px;
+      background: url("./frames/frame_0030.jpg") center / cover no-repeat;
+      box-shadow: var(--shadow);
+    }
+
+    .problem-data {
+      display: grid;
+      gap: 16px;
+    }
+
+    .problem-callout {
+      padding: 24px;
+      border-radius: 8px;
+      background: #f0f8f4;
+      border: 1px solid #cce9db;
+    }
+
+    .problem-callout strong {
+      display: block;
+      color: var(--green);
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: .95;
+    }
+
+    .problem-callout span {
+      display: block;
+      margin-top: 10px;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.5;
+      font-weight: 750;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      font-size: 15px;
+      box-shadow: 0 12px 30px rgba(20, 32, 51, .08);
+    }
+
+    .data-table th {
+      background: var(--green);
+      color: var(--white);
+      text-align: left;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 750;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .component-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .summary-pill {
+      min-height: 150px;
+      padding: 20px;
+      border-radius: 8px;
+      background: var(--red);
+      color: var(--white);
+      box-shadow: 0 14px 34px rgba(215, 25, 32, .18);
+    }
+
+    .summary-pill:nth-child(2) {
+      background: var(--blue);
+    }
+
+    .summary-pill:nth-child(3) {
+      background: var(--green);
+    }
+
+    .summary-pill strong {
+      display: block;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1;
+    }
+
+    .summary-pill span {
+      display: block;
+      margin-top: 10px;
+      color: rgba(255, 255, 255, .82);
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
     .component-list {
       display: grid;
       gap: 12px;
@@ -446,81 +557,48 @@
       text-transform: uppercase;
     }
 
-    .stage-controls {
+    .stage-story {
       position: absolute;
       right: max(20px, calc((100vw - 1180px) / 2));
       top: 96px;
       z-index: 4;
       width: min(340px, calc(100vw - 40px));
-      padding: 14px;
-      border: 1px solid rgba(255, 255, 255, .2);
-      border-radius: 8px;
-      background: rgba(15, 23, 36, .68);
-      color: var(--white);
-      box-shadow: 0 18px 54px rgba(0, 0, 0, .22);
-      backdrop-filter: blur(16px);
-    }
-
-    .control-top,
-    .control-buttons,
-    .control-readout {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: grid;
       gap: 10px;
     }
 
-    .control-top {
-      margin-bottom: 12px;
-      font-size: 12px;
-      font-weight: 850;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, .76);
-    }
-
-    .control-buttons {
-      justify-content: flex-start;
-      margin-top: 12px;
-    }
-
-    .icon-button {
-      width: 42px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(255, 255, 255, .2);
+    .stage-step {
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 255, 255, .16);
       border-radius: 8px;
-      background: rgba(255, 255, 255, .1);
+      background: rgba(15, 23, 36, .5);
+      color: rgba(255, 255, 255, .58);
+      backdrop-filter: blur(14px);
+      transform: translateX(10px);
+      transition: opacity .25s ease, background .25s ease, transform .25s ease, color .25s ease;
+    }
+
+    .stage-step.active {
+      background: rgba(215, 25, 32, .92);
       color: var(--white);
-      cursor: pointer;
-      font: inherit;
-      font-size: 16px;
-      font-weight: 850;
+      transform: translateX(0);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, .2);
     }
 
-    .icon-button:hover,
-    .icon-button.active {
-      background: var(--red);
-      border-color: var(--red);
+    .stage-step strong,
+    .stage-step span {
+      display: block;
     }
 
-    .scrubber {
-      width: 100%;
-      accent-color: var(--red);
-      cursor: pointer;
+    .stage-step strong {
+      font-size: 14px;
+      text-transform: uppercase;
     }
 
-    .control-readout {
-      margin-top: 10px;
-      color: rgba(255, 255, 255, .74);
-      font-size: 12px;
-      font-weight: 750;
-    }
-
-    .spotlight .stage-copy,
-    .spotlight #scroll-hint {
-      opacity: 0;
-      pointer-events: none;
+    .stage-step span {
+      margin-top: 6px;
+      font-size: 13px;
+      line-height: 1.45;
     }
 
     #scroll-hint {
@@ -657,6 +735,11 @@
         grid-template-columns: 1fr;
       }
 
+      .problem-board,
+      .component-summary {
+        grid-template-columns: 1fr;
+      }
+
       .hero-panel {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
@@ -697,11 +780,15 @@
         grid-template-columns: 1fr;
       }
 
-      .stage-controls {
+      .stage-story {
         left: 20px;
         right: 20px;
         top: 76px;
         width: auto;
+      }
+
+      .stage-step:not(.active) {
+        display: none;
       }
 
       #scroll-hint {
@@ -751,55 +838,103 @@
         </div>
         <aside class="hero-panel" aria-label="Indicadores principales">
           <div class="stat-tile">
-            <strong>US$ 600M</strong>
-            <span>Presupuesto aproximado con Gobierno Peruano, BID y Banco Mundial.</span>
+            <strong>1 de 3</strong>
+            <span>Hogares percibia sus caminos vecinales en condicion adecuada para transitar.</span>
           </div>
           <div class="stat-tile">
-            <strong>7,200 km</strong>
-            <span>Caminos vecinales intervenidos entre rehabilitacion, mejoramiento y mantenimiento.</span>
+            <strong>98,30%</strong>
+            <span>De la red vial vecinal no se encontraba pavimentada en el 2018.</span>
           </div>
           <div class="stat-tile">
-            <strong>260</strong>
-            <span>Proyectos de inversion orientados a conectividad rural.</span>
+            <strong>139 + 121</strong>
+            <span>Proyectos y mantenimientos para mejorar la conectividad subnacional.</span>
           </div>
         </aside>
       </div>
     </section>
 
     <section id="programa" class="section intro">
+      <div class="wrap">
+        <div class="section-grid">
+          <div>
+            <div class="kicker">El problema</div>
+            <h2>La red vecinal sostiene la vida rural, pero llego con una brecha critica.</h2>
+          </div>
+          <p class="body-copy">El rediseño del PATS parte de una evidencia directa: la transitabilidad de los caminos vecinales condiciona el acceso a salud, educacion, mercados y servicios publicos. La intervencion no es solo obra; es presencia del Estado en territorios que necesitan conectarse mejor.</p>
+        </div>
+        <div class="problem-board">
+          <div class="problem-photo" aria-label="Camino vecinal intervenido"></div>
+          <div class="problem-data">
+            <div class="problem-callout">
+              <strong>33,50%</strong>
+              <span>Solo 1 de cada 3 hogares percibia que sus caminos vecinales estaban en condicion adecuada para transitar.</span>
+            </div>
+            <table class="data-table" aria-label="Estado de la red vial vecinal">
+              <thead>
+                <tr>
+                  <th>Red vial</th>
+                  <th>Kilometros</th>
+                  <th>Porcentaje</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Pavimentada</td>
+                  <td>1,906.2 km</td>
+                  <td>1,70%</td>
+                </tr>
+                <tr>
+                  <td>No pavimentada</td>
+                  <td>111,886.6 km</td>
+                  <td>98,30%</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="component-summary">
+              <div class="summary-pill">
+                <strong>139</strong>
+                <span>Proyectos de mejoramiento y rehabilitacion.</span>
+              </div>
+              <div class="summary-pill">
+                <strong>121</strong>
+                <span>Mantenimientos de infraestructura vial.</span>
+              </div>
+              <div class="summary-pill">
+                <strong>194</strong>
+                <span>Planes viales provinciales participativos.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="wrap section-grid">
         <div>
-          <div class="kicker">Programa 2016-2021</div>
-          <h2>Una agenda vial para inclusion social, competitividad y descentralizacion.</h2>
+          <div class="kicker">Componentes PATS</div>
+          <h2>Intervenciones, mantenimiento y planificacion territorial en una sola agenda.</h2>
         </div>
         <div class="component-list">
-          <p class="body-copy">El PATS, ejecutado por Provias Descentralizado como unidad ejecutora del MTC, busca reducir costos de transporte y facilitar el acceso de la poblacion rural a servicios basicos mediante caminos vecinales mas confiables.</p>
           <article class="component">
             <b>01</b>
             <div>
-              <h3>Rehabilitacion y mejoramiento</h3>
-              <p>2,200 km de caminos vecinales mediante 139 proyectos de inversion.</p>
+              <h3>Mejoramiento y rehabilitacion</h3>
+              <p>139 proyectos, 2,497 kilometros y S/ 3,019 millones orientados a integracion e inclusion social.</p>
             </div>
           </article>
           <article class="component">
             <b>02</b>
             <div>
-              <h3>Mantenimiento vial</h3>
-              <p>5,000 km de vias vecinales atendidas a traves de 121 proyectos de inversion.</p>
+              <h3>Mantenimiento de infraestructura vial</h3>
+              <p>121 mantenimientos, 2,448 kilometros y S/ 362 millones para sostener transitabilidad.</p>
             </div>
           </article>
           <article class="component">
             <b>03</b>
             <div>
-              <h3>Fortalecimiento de capacidades</h3>
-              <p>Capacitacion y asistencia tecnica para gobiernos regionales y locales.</p>
-            </div>
-          </article>
-          <article class="component">
-            <b>04</b>
-            <div>
-              <h3>Gestion del programa</h3>
-              <p>Administracion, seguimiento y coordinacion para sostener la ejecucion.</p>
+              <h3>Planes viales provinciales participativos</h3>
+              <p>194 PVPP para fortalecer la gestion vial descentralizada y ordenar prioridades locales.</p>
             </div>
           </article>
         </div>
@@ -830,21 +965,22 @@
               </div>
             </div>
           </div>
-          <div class="stage-controls" aria-label="Controles de la animacion">
-            <div class="control-top">
-              <span>Control del recorrido</span>
-              <span id="mode-readout">Scroll</span>
+          <div class="stage-story" aria-label="Narrativa del recorrido">
+            <div class="stage-step active" data-step="0">
+              <strong>Diagnostico</strong>
+              <span>Una red vecinal extensa con baja pavimentacion.</span>
             </div>
-            <input class="scrubber" id="frame-scrubber" type="range" min="0" max="191" value="0" aria-label="Explorar frames del recorrido">
-            <div class="control-readout">
-              <span id="distance-readout">Inicio</span>
-              <span id="percent-readout">0%</span>
+            <div class="stage-step" data-step="1">
+              <strong>Intervencion</strong>
+              <span>Proyectos que mejoran transitabilidad y acceso rural.</span>
             </div>
-            <div class="control-buttons">
-              <button class="icon-button" id="prev-frame" type="button" title="Frame anterior" aria-label="Frame anterior">&lt;</button>
-              <button class="icon-button" id="toggle-lock" type="button" title="Bloquear frame actual" aria-label="Bloquear frame actual">o</button>
-              <button class="icon-button" id="next-frame" type="button" title="Frame siguiente" aria-label="Frame siguiente">&gt;</button>
-              <button class="icon-button" id="toggle-focus" type="button" title="Modo enfoque" aria-label="Modo enfoque">[]</button>
+            <div class="stage-step" data-step="2">
+              <strong>Mantenimiento</strong>
+              <span>Conservacion para que el camino siga funcionando.</span>
+            </div>
+            <div class="stage-step" data-step="3">
+              <strong>Gestion vial</strong>
+              <span>Capacidades locales para sostener la inversion.</span>
             </div>
           </div>
           <div id="scroll-hint">Desplaza</div>
@@ -858,19 +994,19 @@
         <h2>Infraestructura rural con resultados medibles.</h2>
         <div class="feature-grid">
           <article class="feature">
-            <div class="number">2,200 km</div>
+            <div class="number">2,497 km</div>
             <h3>Caminos mejorados</h3>
             <p>Intervenciones para elevar condiciones de transitabilidad en corredores vecinales prioritarios.</p>
           </article>
           <article class="feature">
-            <div class="number">5,000 km</div>
+            <div class="number">2,448 km</div>
             <h3>Mantenimiento programado</h3>
             <p>Conservacion de vias para sostener la conectividad y reducir interrupciones en zonas rurales.</p>
           </article>
           <article class="feature">
-            <div class="number">139 + 121</div>
-            <h3>Proyectos articulados</h3>
-            <p>Una cartera orientada a integrar inversion, mantenimiento y asistencia tecnica territorial.</p>
+            <div class="number">194</div>
+            <h3>PVPP articulados</h3>
+            <p>Planes provinciales participativos para integrar inversion, mantenimiento y asistencia tecnica territorial.</p>
           </article>
         </div>
       </div>
@@ -910,17 +1046,9 @@
       const pct = document.getElementById('loader-pct');
       const hint = document.getElementById('scroll-hint');
       const section = document.getElementById('scroll-section');
-      const stage = document.getElementById('sticky-stage');
-      const scrubber = document.getElementById('frame-scrubber');
-      const prevBtn = document.getElementById('prev-frame');
-      const nextBtn = document.getElementById('next-frame');
-      const lockBtn = document.getElementById('toggle-lock');
-      const focusBtn = document.getElementById('toggle-focus');
       const progressReadout = document.getElementById('progress-readout');
       const frameReadout = document.getElementById('frame-readout');
-      const modeReadout = document.getElementById('mode-readout');
-      const distanceReadout = document.getElementById('distance-readout');
-      const percentReadout = document.getElementById('percent-readout');
+      const stageSteps = Array.from(document.querySelectorAll('.stage-step'));
 
       let dpr = 1;
       let vpW = 0;
@@ -990,48 +1118,31 @@
       }
 
       let currentIdx = -1;
-      let locked = false;
 
       function frameProgress(idx) {
         return TOTAL_FRAMES <= 1 ? 0 : idx / (TOTAL_FRAMES - 1);
       }
 
-      function updateControls(idx, progress) {
+      function updateReadouts(idx, progress) {
         const pctValue = Math.round(progress * 100);
-        scrubber.value = String(idx);
         progressReadout.textContent = pctValue + '%';
-        percentReadout.textContent = pctValue + '%';
         frameReadout.textContent = (idx + 1) + '/' + TOTAL_FRAMES;
-        distanceReadout.textContent = progress < .02 ? 'Inicio' : progress > .98 ? 'Cierre' : 'Tramo ' + Math.max(1, Math.ceil(progress * 8));
-        modeReadout.textContent = locked ? 'Manual' : 'Scroll';
-        lockBtn.classList.toggle('active', locked);
+        const activeStep = Math.min(stageSteps.length - 1, Math.floor(progress * stageSteps.length));
+        stageSteps.forEach((step, index) => {
+          step.classList.toggle('active', index === activeStep);
+        });
       }
 
       function draw(idx) {
         const safeIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, idx));
         const progress = frameProgress(safeIdx);
         if (safeIdx === currentIdx) {
-          updateControls(safeIdx, progress);
+          updateReadouts(safeIdx, progress);
           return;
         }
         currentIdx = safeIdx;
         drawCover(frames[safeIdx]);
-        updateControls(safeIdx, progress);
-      }
-
-      function setManualFrame(idx) {
-        locked = true;
-        draw(idx);
-      }
-
-      function scrollToFrame(idx) {
-        const safeIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, idx));
-        const progress = frameProgress(safeIdx);
-        window.scrollTo({
-          top: sectionTop + (scrollRange * progress),
-          behavior: 'smooth'
-        });
-        draw(safeIdx);
+        updateReadouts(safeIdx, progress);
       }
 
       let rafPending = false;
@@ -1048,43 +1159,11 @@
         if (!rafPending) {
           rafPending = true;
           requestAnimationFrame(() => {
-            if (!locked) draw(nextIdx);
-            else {
-              const savedIdx = currentIdx < 0 ? 0 : currentIdx;
-              updateControls(savedIdx, frameProgress(savedIdx));
-            }
+            draw(nextIdx);
             rafPending = false;
           });
         }
       }
-
-      scrubber.addEventListener('input', event => {
-        setManualFrame(Number(event.target.value));
-      });
-
-      scrubber.addEventListener('change', event => {
-        scrollToFrame(Number(event.target.value));
-      });
-
-      prevBtn.addEventListener('click', () => {
-        setManualFrame((currentIdx < 0 ? 0 : currentIdx) - 1);
-      });
-
-      nextBtn.addEventListener('click', () => {
-        setManualFrame((currentIdx < 0 ? 0 : currentIdx) + 1);
-      });
-
-      lockBtn.addEventListener('click', () => {
-        locked = !locked;
-        lockBtn.classList.toggle('active', locked);
-        modeReadout.textContent = locked ? 'Manual' : 'Scroll';
-        if (!locked) onScroll();
-      });
-
-      focusBtn.addEventListener('click', () => {
-        stage.classList.toggle('spotlight');
-        focusBtn.classList.toggle('active', stage.classList.contains('spotlight'));
-      });
 
       window.addEventListener('resize', () => {
         sizeCanvas();
