@@ -923,12 +923,41 @@
       flex-wrap: wrap;
     }
 
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity .75s cubic-bezier(.22,1,.36,1), transform .75s cubic-bezier(.22,1,.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: .1s; }
+    .reveal-d2 { transition-delay: .2s; }
+    .reveal-d3 { transition-delay: .32s; }
+    .reveal-d4 { transition-delay: .44s; }
+
     /* ── Static card fan section ── */
     .fan-section {
       padding: 100px 0 130px;
       background: #0d1620;
-      border-bottom: 1px solid rgba(255, 255, 255, .07);
+      border-bottom: none;
       overflow: hidden;
+      position: relative;
+      /* Grid background inspired by Terminal Industries */
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(255,255,255,.045) 79px, rgba(255,255,255,.045) 80px),
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,255,255,.045) 79px, rgba(255,255,255,.045) 80px);
+    }
+
+    /* Curved wave divider at the bottom of the dark section */
+    .fan-section::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: var(--paper);
+      clip-path: ellipse(55% 100% at 50% 100%);
     }
 
     .fan-section-lead {
@@ -1178,25 +1207,25 @@
     <section class="hero">
       <div class="wrap hero-grid">
         <div>
-          <div class="eyebrow">MTC / Provias Descentralizado</div>
-          <h1>Transporte subnacional que acerca servicios, mercados y oportunidades.</h1>
-          <p class="lead">El Programa de Apoyo al Transporte Subnacional impulsa infraestructura vial rural para mejorar el acceso de la poblacion y fortalecer la gestion descentralizada del territorio.</p>
-          <div class="hero-actions">
+          <div class="eyebrow reveal">MTC / Provias Descentralizado</div>
+          <h1 id="hero-title" class="reveal reveal-d1">Transporte subnacional que acerca servicios, mercados y oportunidades.</h1>
+          <p class="lead reveal reveal-d2">El Programa de Apoyo al Transporte Subnacional impulsa infraestructura vial rural para mejorar el acceso de la poblacion y fortalecer la gestion descentralizada del territorio.</p>
+          <div class="hero-actions reveal reveal-d3">
             <a class="button primary" href="#recorrido">Ver recorrido animado</a>
             <a class="button secondary" href="#programa">Conocer componentes</a>
           </div>
         </div>
         <aside class="hero-panel" aria-label="Indicadores principales">
-          <div class="stat-tile">
+          <div class="stat-tile reveal reveal-d1">
             <strong>1 de 3</strong>
             <span>Hogares percibia sus caminos vecinales en condicion adecuada para transitar.</span>
           </div>
-          <div class="stat-tile">
-            <strong>98,30%</strong>
+          <div class="stat-tile reveal reveal-d2">
+            <strong><span data-count="98.3" data-suffix="%">98,30%</span></strong>
             <span>De la red vial vecinal no se encontraba pavimentada en el 2018.</span>
           </div>
-          <div class="stat-tile">
-            <strong>139 + 121</strong>
+          <div class="stat-tile reveal reveal-d3">
+            <strong><span data-count="260" data-suffix=" proyectos">139 + 121</span></strong>
             <span>Proyectos y mantenimientos para mejorar la conectividad subnacional.</span>
           </div>
         </aside>
@@ -1206,9 +1235,9 @@
     <section id="programa" class="fan-section">
       <div class="wrap">
         <div class="fan-section-lead">
-          <div class="kicker">Componentes del programa</div>
-          <h2>Cuatro frentes de accion para conectar el Peru rural.</h2>
-          <p class="body-copy">El PATS articula infraestructura, mantenimiento y planificacion territorial en una agenda integrada de transporte subnacional.</p>
+          <div class="kicker reveal">Componentes del programa</div>
+          <h2 class="reveal reveal-d1">Cuatro frentes de accion para conectar el Peru rural.</h2>
+          <p class="body-copy reveal reveal-d2">El PATS articula infraestructura, mantenimiento y planificacion territorial en una agenda integrada de transporte subnacional.</p>
         </div>
       </div>
       <div class="sfan-wrap" aria-label="Componentes PATS interactivos">
@@ -1334,18 +1363,18 @@
         <div class="kicker">Impacto operacional</div>
         <h2>Infraestructura rural con resultados medibles.</h2>
         <div class="feature-grid">
-          <article class="feature">
-            <div class="number">2,497 km</div>
+          <article class="feature reveal">
+            <div class="number"><span data-count="2497" data-suffix=" km">2,497 km</span></div>
             <h3>Caminos mejorados</h3>
             <p>Intervenciones para elevar condiciones de transitabilidad en corredores vecinales prioritarios.</p>
           </article>
-          <article class="feature">
-            <div class="number">2,448 km</div>
+          <article class="feature reveal reveal-d1">
+            <div class="number"><span data-count="2448" data-suffix=" km">2,448 km</span></div>
             <h3>Mantenimiento programado</h3>
             <p>Conservacion de vias para sostener la conectividad y reducir interrupciones en zonas rurales.</p>
           </article>
-          <article class="feature">
-            <div class="number">194</div>
+          <article class="feature reveal reveal-d2">
+            <div class="number"><span data-count="194" data-suffix="">194</span></div>
             <h3>PVPP articulados</h3>
             <p>Planes provinciales participativos para integrar inversion, mantenimiento y asistencia tecnica territorial.</p>
           </article>
@@ -1373,6 +1402,63 @@
   </footer>
 
   <script>
+    // ── Scroll reveal (IntersectionObserver) ──
+    (() => {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    })();
+
+    // ── Counter animation ──
+    (() => {
+      const ease = t => t < .5 ? 2*t*t : -1+(4-2*t)*t;
+      const DURATION = 1600;
+
+      function animateCount(el) {
+        const target = parseFloat(el.dataset.count);
+        const suffix = el.dataset.suffix || '';
+        const isFloat = !Number.isInteger(target);
+        const start = performance.now();
+        function step(now) {
+          const p = Math.min((now - start) / DURATION, 1);
+          const val = ease(p) * target;
+          el.textContent = (isFloat ? val.toFixed(1) : Math.round(val).toLocaleString('es-PE')) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { animateCount(e.target); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.5 });
+      document.querySelectorAll('[data-count]').forEach(el => io.observe(el));
+    })();
+
+    // ── Hero title word-by-word reveal ──
+    (() => {
+      const h1 = document.getElementById('hero-title');
+      if (!h1) return;
+      const words = h1.textContent.trim().split(' ');
+      h1.innerHTML = words.map((w, i) =>
+        `<span style="display:inline-block;opacity:0;transform:translateY(22px);transition:opacity .5s ${(.08*i).toFixed(2)}s cubic-bezier(.22,1,.36,1),transform .5s ${(.08*i).toFixed(2)}s cubic-bezier(.22,1,.36,1)">${w}</span>`
+      ).join(' ');
+
+      const io = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+          h1.querySelectorAll('span').forEach(s => {
+            s.style.opacity = '1'; s.style.transform = 'translateY(0)';
+          });
+          io.disconnect();
+        }
+      }, { threshold: 0.3 });
+      io.observe(h1);
+    })();
+
     // Static card fan
     (() => {
       const sfan = document.querySelector('.sfan');
