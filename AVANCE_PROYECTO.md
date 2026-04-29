@@ -179,6 +179,26 @@ Cards actuales:
 - Componente III: `194` PVPP.
 - Resultado: PATS como agenda integral.
 
+### Correccion solicitada para el 3D Card Fan
+
+Observacion del usuario:
+
+- Las cartas no deben aparecer antes de llegar al video.
+- Las cartas deben aparecer dentro de la seccion del video, sobre el video/canvas sticky.
+- La referencia visual deseada es un abanico 3D como la imagen compartida: cartas oscuras, apiladas con perspectiva, rotacion y separacion tipo fan.
+- Deben ser solo 4 cartas.
+- Cada carta debe representar un componente/informacion principal del PATS.
+- Al hacer clic en una carta, debe expandirse para mostrar mas informacion.
+
+Direccion para la siguiente implementacion:
+
+- Reubicar el fan para que viva estrictamente dentro de `#sticky-stage`.
+- Ajustar el layout para que el abanico se vea centrado sobre el video, no como tarjetas sueltas.
+- Reducir el set a 4 cards.
+- Usar un estilo visual mas cercano a la referencia: fondo oscuro/translucido, borde sutil, texto claro, profundidad 3D y hover/click destacado.
+- Agregar estado expandido por clic con mas detalle del componente.
+- Mantener el video como una sola pieza de fondo y la interaccion principal por scroll.
+
 ## Estado de Git
 
 Repositorio inicializado en esta carpeta.
