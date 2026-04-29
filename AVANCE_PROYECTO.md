@@ -157,6 +157,28 @@ Decision de interaccion:
 - No se agregaron controles manuales tipo reproductor.
 - Las ventanas aparecen y desaparecen automaticamente segun el porcentaje de scroll dentro del video.
 
+### Rediseño de informacion como 3D Card Fan
+
+Se reemplazaron las ventanas flotantes por un efecto de abanico 3D de cards.
+
+Caracteristicas:
+
+- Cards apiladas con perspectiva 3D.
+- Apertura progresiva en forma de abanico durante el scroll.
+- Uso de `perspective`, `transform-style: preserve-3d`, `translateZ`, `rotateY` y `rotateZ`.
+- Cada card representa una escena o dato clave del PATS.
+- La card activa se resalta mientras el resto queda en profundidad.
+- El efecto se implemento con CSS y JavaScript puro, sin depender de GSAP, Framer Motion o Three.js.
+
+Cards actuales:
+
+- Diagnostico: `1 de 3`.
+- Brecha vial: `98,30%`.
+- Componente I: `139` proyectos.
+- Componente II: `121` mantenimientos.
+- Componente III: `194` PVPP.
+- Resultado: PATS como agenda integral.
+
 ## Estado de Git
 
 Repositorio inicializado en esta carpeta.
