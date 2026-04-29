@@ -113,13 +113,180 @@
 
     .hero {
       min-height: 100svh;
-      padding: 132px 0 56px;
-      display: grid;
+      padding: 140px 24px 120px;
+      display: flex;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
+      text-align: center;
       background:
-        linear-gradient(90deg, rgba(247, 249, 251, .97) 0%, rgba(247, 249, 251, .86) 48%, rgba(247, 249, 251, .24) 100%),
+        linear-gradient(180deg, rgba(6,11,20,.76) 0%, rgba(6,11,20,.44) 52%, rgba(6,11,20,.78) 100%),
         url("./frames/frame_0001.jpg") center / cover no-repeat;
-      border-bottom: 1px solid var(--line);
+      border-bottom: none;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-inner { max-width: 960px; width: 100%; }
+
+    .hero-eyebrow { color: rgba(255,255,255,.58); }
+
+    .hero h1 {
+      max-width: none;
+      margin-top: 20px;
+      font-size: clamp(48px, 7vw, 96px);
+      line-height: .92;
+      color: var(--white);
+      text-shadow: 0 6px 52px rgba(0,0,0,.3);
+    }
+
+    .hero .lead {
+      max-width: 580px;
+      margin: 30px auto 0;
+      color: rgba(255,255,255,.72);
+    }
+
+    .hero .hero-actions { justify-content: center; }
+
+    .hero-btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 14px;
+      background: rgba(255,255,255,.07);
+      color: var(--white);
+      backdrop-filter: blur(8px);
+      transition: background .2s;
+    }
+
+    .hero-btn-outline:hover { background: rgba(255,255,255,.16); }
+
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,.4);
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      white-space: nowrap;
+    }
+
+    .scroll-mouse {
+      width: 20px;
+      height: 32px;
+      border: 1.5px solid rgba(255,255,255,.34);
+      border-radius: 999px;
+      position: relative;
+    }
+
+    .scroll-mouse::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 5px;
+      background: rgba(255,255,255,.56);
+      border-radius: 999px;
+      animation: scroll-dot 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scroll-dot {
+      0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+      80%  { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* Nav transparent over dark hero */
+    .site-header.on-dark {
+      background: rgba(6, 11, 20, .58);
+      border-color: rgba(255,255,255,.09);
+    }
+
+    .site-header.on-dark .brand,
+    .site-header.on-dark .nav-links { color: var(--white); }
+
+    .site-header.on-dark .nav-links a:hover {
+      background: rgba(255,255,255,.08);
+      color: var(--white);
+    }
+
+    /* Statement section — "through the yard" equivalent */
+    .statement-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 130px 24px 110px;
+      background: #07111e;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(255,255,255,.036) 79px, rgba(255,255,255,.036) 80px),
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,255,255,.036) 79px, rgba(255,255,255,.036) 80px);
+    }
+
+    .statement-inner { max-width: 880px; text-align: center; }
+
+    .statement-eyebrow {
+      margin: 0 0 28px;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+    }
+
+    .statement-headline {
+      margin: 0;
+      font-size: clamp(38px, 5.5vw, 76px);
+      font-weight: 850;
+      line-height: 1.04;
+      color: var(--white);
+    }
+
+    .statement-headline em { font-style: normal; color: var(--red); }
+
+    .statement-stats {
+      display: flex;
+      margin-top: 72px;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+
+    .s-stat {
+      flex: 1;
+      padding: 36px 24px;
+      border-left: 1px solid rgba(255,255,255,.1);
+      text-align: center;
+    }
+
+    .s-stat:first-child { border-left: none; }
+
+    .s-stat strong {
+      display: block;
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 1;
+      color: var(--white);
+    }
+
+    .s-stat span {
+      display: block;
+      margin-top: 12px;
+      color: rgba(255,255,255,.48);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.45;
     }
 
     .wrap {
@@ -1205,30 +1372,39 @@
 
   <main id="inicio">
     <section class="hero">
-      <div class="wrap hero-grid">
-        <div>
-          <div class="eyebrow reveal">MTC / Provias Descentralizado</div>
-          <h1 id="hero-title" class="reveal reveal-d1">Transporte subnacional que acerca servicios, mercados y oportunidades.</h1>
-          <p class="lead reveal reveal-d2">El Programa de Apoyo al Transporte Subnacional impulsa infraestructura vial rural para mejorar el acceso de la poblacion y fortalecer la gestion descentralizada del territorio.</p>
-          <div class="hero-actions reveal reveal-d3">
-            <a class="button primary" href="#recorrido">Ver recorrido animado</a>
-            <a class="button secondary" href="#programa">Conocer componentes</a>
+      <div class="hero-inner">
+        <div class="eyebrow hero-eyebrow reveal">MTC · Provias Descentralizado</div>
+        <h1 id="hero-title" class="reveal reveal-d1">Transporte subnacional que acerca servicios, mercados y oportunidades.</h1>
+        <p class="lead reveal reveal-d2">El Programa de Apoyo al Transporte Subnacional impulsa infraestructura vial rural para mejorar el acceso de la poblacion y fortalecer la gestion descentralizada del territorio.</p>
+        <div class="hero-actions reveal reveal-d3">
+          <a class="button primary" href="#recorrido">Ver recorrido animado</a>
+          <a class="hero-btn-outline" href="#programa">Conocer componentes</a>
+        </div>
+      </div>
+      <div class="hero-scroll-hint reveal reveal-d4">
+        <span class="scroll-mouse"></span>
+        <span>Desplaza</span>
+      </div>
+    </section>
+
+    <section class="statement-section">
+      <div class="statement-inner">
+        <p class="statement-eyebrow reveal">El problema</p>
+        <h2 class="statement-headline reveal reveal-d1">Solo <em>1 de cada 3</em> hogares percibe sus caminos vecinales en condicion adecuada para transitar.</h2>
+        <div class="statement-stats reveal reveal-d2">
+          <div class="s-stat">
+            <strong><span data-count="98.3" data-suffix="%">98,30%</span></strong>
+            <span>Red vial vecinal sin pavimentar</span>
+          </div>
+          <div class="s-stat">
+            <strong>113,793 km</strong>
+            <span>Total de la red vecinal nacional</span>
+          </div>
+          <div class="s-stat">
+            <strong><span data-count="33.5" data-suffix="%">33,50%</span></strong>
+            <span>Hogares con percepcion adecuada de caminos</span>
           </div>
         </div>
-        <aside class="hero-panel" aria-label="Indicadores principales">
-          <div class="stat-tile reveal reveal-d1">
-            <strong>1 de 3</strong>
-            <span>Hogares percibia sus caminos vecinales en condicion adecuada para transitar.</span>
-          </div>
-          <div class="stat-tile reveal reveal-d2">
-            <strong><span data-count="98.3" data-suffix="%">98,30%</span></strong>
-            <span>De la red vial vecinal no se encontraba pavimentada en el 2018.</span>
-          </div>
-          <div class="stat-tile reveal reveal-d3">
-            <strong><span data-count="260" data-suffix=" proyectos">139 + 121</span></strong>
-            <span>Proyectos y mantenimientos para mejorar la conectividad subnacional.</span>
-          </div>
-        </aside>
       </div>
     </section>
 
@@ -1402,6 +1578,18 @@
   </footer>
 
   <script>
+    // ── Nav dark/light based on scroll position ──
+    (() => {
+      const header = document.querySelector('.site-header');
+      const hero = document.querySelector('.hero');
+      if (!header || !hero) return;
+      function update() {
+        header.classList.toggle('on-dark', window.scrollY < hero.offsetHeight - 60);
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    })();
+
     // ── Scroll reveal (IntersectionObserver) ──
     (() => {
       const io = new IntersectionObserver((entries) => {
