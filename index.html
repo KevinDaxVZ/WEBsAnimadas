@@ -589,22 +589,30 @@
     }
 
     .fan-layer {
+      --fan-alpha: 0;
       position: absolute;
       inset: 0;
       z-index: 3;
       pointer-events: none;
+      opacity: var(--fan-alpha);
       perspective: 1300px;
-      perspective-origin: 58% 46%;
+      perspective-origin: 50% 48%;
+      transition: opacity .28s ease;
+    }
+
+    .fan-layer.is-visible {
+      pointer-events: auto;
     }
 
     .card-fan {
       position: absolute;
-      top: 15vh;
+      top: 25vh;
       left: 50%;
-      width: min(1040px, calc(100vw - 48px));
-      height: min(540px, 62vh);
+      width: min(980px, calc(100vw - 48px));
+      height: min(440px, 52vh);
       transform: translateX(-50%);
       transform-style: preserve-3d;
+      pointer-events: none;
     }
 
     .fan-card {
@@ -616,18 +624,18 @@
       --scale: 1;
       --alpha: 1;
       position: absolute;
-      top: 12%;
+      top: 8%;
       left: 50%;
-      width: min(315px, 72vw);
-      min-height: 390px;
-      padding: 20px;
-      border: 1px solid rgba(255, 255, 255, .2);
-      border-radius: 8px;
+      width: min(260px, 68vw);
+      min-height: 338px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 10px;
       background:
-        linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(245, 248, 251, .94)),
-        radial-gradient(circle at top left, rgba(215, 25, 32, .14), transparent 48%);
-      color: var(--ink);
-      box-shadow: 0 28px 80px rgba(0, 0, 0, .34);
+        linear-gradient(180deg, rgba(13, 22, 37, .94), rgba(8, 14, 25, .9)),
+        radial-gradient(circle at top left, color-mix(in srgb, var(--accent, var(--red)) 26%, transparent), transparent 48%);
+      color: var(--white);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .42);
       opacity: var(--alpha);
       transform:
         translateX(calc(-50% + var(--x)))
@@ -637,16 +645,19 @@
         rotateZ(var(--rz))
         scale(var(--scale));
       transform-style: preserve-3d;
-      transition: box-shadow .25s ease, opacity .25s ease;
+      transition: box-shadow .25s ease, opacity .25s ease, filter .25s ease;
       overflow: hidden;
+      cursor: pointer;
+      pointer-events: auto;
+      backdrop-filter: blur(18px);
     }
 
     .fan-card::before {
       content: "";
       position: absolute;
       inset: 0;
-      border-top: 6px solid var(--accent, var(--red));
-      background: linear-gradient(130deg, color-mix(in srgb, var(--accent, var(--red)) 14%, transparent), transparent 40%);
+      border-top: 5px solid var(--accent, var(--red));
+      background: linear-gradient(140deg, color-mix(in srgb, var(--accent, var(--red)) 18%, transparent), transparent 48%);
       pointer-events: none;
     }
 
@@ -658,11 +669,26 @@
       width: 132px;
       height: 132px;
       border-radius: 999px;
-      background: color-mix(in srgb, var(--accent, var(--red)) 12%, transparent);
+      background: color-mix(in srgb, var(--accent, var(--red)) 16%, transparent);
     }
 
     .fan-card.active {
-      box-shadow: 0 34px 90px rgba(0, 0, 0, .44), 0 0 0 1px color-mix(in srgb, var(--accent, var(--red)) 36%, transparent);
+      box-shadow: 0 34px 92px rgba(0, 0, 0, .56), 0 0 0 1px color-mix(in srgb, var(--accent, var(--red)) 48%, transparent);
+      filter: brightness(1.08);
+    }
+
+    .fan-card.expanded {
+      z-index: 20;
+      width: min(430px, calc(100vw - 40px));
+      min-height: 420px;
+      opacity: 1;
+      transform: translateX(-50%) translateY(-20px) translateZ(260px) rotateY(0deg) rotateZ(0deg) scale(1.05);
+      box-shadow: 0 44px 120px rgba(0, 0, 0, .68), 0 0 0 1px color-mix(in srgb, var(--accent, var(--red)) 58%, transparent);
+    }
+
+    .card-fan.has-expanded .fan-card:not(.expanded) {
+      opacity: .22;
+      filter: blur(1px) brightness(.74);
     }
 
     .fan-card.green {
@@ -708,15 +734,15 @@
 
     .fan-card span {
       margin-top: 14px;
-      color: var(--ink);
-      font-size: 21px;
+      color: rgba(255, 255, 255, .96);
+      font-size: 20px;
       line-height: 1.14;
       font-weight: 850;
     }
 
     .fan-card p {
       margin-top: 16px;
-      color: var(--muted);
+      color: rgba(255, 255, 255, .7);
       font-size: 15px;
       line-height: 1.58;
       font-weight: 650;
@@ -724,10 +750,40 @@
 
     .fan-card small {
       margin-top: 24px;
-      color: color-mix(in srgb, var(--accent, var(--red)) 82%, #111);
+      color: color-mix(in srgb, var(--accent, var(--red)) 70%, #fff);
       font-size: 12px;
       font-weight: 850;
       text-transform: uppercase;
+    }
+
+    .fan-card .more {
+      max-height: 0;
+      margin-top: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height .28s ease, opacity .28s ease, margin-top .28s ease;
+    }
+
+    .fan-card.expanded .more {
+      max-height: 180px;
+      margin-top: 16px;
+      opacity: 1;
+    }
+
+    .fan-card .tap {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      z-index: 2;
+      color: rgba(255, 255, 255, .5);
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .fan-card.expanded .tap {
+      color: color-mix(in srgb, var(--accent, var(--red)) 70%, #fff);
     }
 
     .stage-step strong,
@@ -902,13 +958,13 @@
       }
 
       .card-fan {
-        top: 18vh;
+        top: 22vh;
         height: 54vh;
       }
 
       .fan-card {
-        width: min(278px, 68vw);
-        min-height: 330px;
+        width: min(250px, 66vw);
+        min-height: 320px;
         padding: 16px;
       }
     }
@@ -956,13 +1012,18 @@
       }
 
       .card-fan {
-        top: 17vh;
+        top: 21vh;
         width: 100vw;
       }
 
       .fan-card {
-        width: min(245px, 74vw);
-        min-height: 310px;
+        width: min(230px, 72vw);
+        min-height: 300px;
+      }
+
+      .fan-card.expanded {
+        width: min(330px, calc(100vw - 32px));
+        min-height: 390px;
       }
 
       #scroll-hint {
@@ -1141,73 +1202,55 @@
           </div>
           <div class="stage-story" aria-label="Narrativa del recorrido">
             <div class="stage-step active" data-step="0">
-              <strong>Diagnostico</strong>
-              <span>Una red vecinal extensa con baja pavimentacion.</span>
+              <strong>Componente I</strong>
+              <span>Mejoramiento y rehabilitacion.</span>
             </div>
             <div class="stage-step" data-step="1">
-              <strong>Intervencion</strong>
-              <span>Proyectos que mejoran transitabilidad y acceso rural.</span>
+              <strong>Componente II</strong>
+              <span>Mantenimiento de infraestructura vial.</span>
             </div>
             <div class="stage-step" data-step="2">
-              <strong>Mantenimiento</strong>
-              <span>Conservacion para que el camino siga funcionando.</span>
+              <strong>Componente III</strong>
+              <span>Planes viales provinciales participativos.</span>
             </div>
             <div class="stage-step" data-step="3">
-              <strong>Gestion vial</strong>
-              <span>Capacidades locales para sostener la inversion.</span>
-            </div>
-            <div class="stage-step" data-step="4">
-              <strong>Impacto</strong>
-              <span>Menos aislamiento y mejores servicios para la poblacion.</span>
-            </div>
-            <div class="stage-step" data-step="5">
-              <strong>Continuidad</strong>
-              <span>Una agenda que puede escalar con nueva evidencia visual.</span>
+              <strong>Componente IV</strong>
+              <span>Gestion y administracion del programa.</span>
             </div>
           </div>
-          <div class="fan-layer" aria-hidden="true">
+          <div class="fan-layer" aria-label="Cartas interactivas de componentes PATS">
             <div class="card-fan">
-              <article class="fan-card red active" data-card="0">
-                <small class="card-kicker">Diagnostico</small>
-                <strong>1 de 3</strong>
-                <span>hogares percibia caminos adecuados</span>
-                <p>La brecha inicial es de transitabilidad y confianza en la red vecinal.</p>
-                <small>Condicion de partida</small>
-              </article>
-              <article class="fan-card green" data-card="1">
-                <small class="card-kicker">Brecha vial</small>
-                <strong>98,30%</strong>
-                <span>de la red vecinal no estaba pavimentada</span>
-                <p>La escala territorial explica por que el acceso rural requiere intervenciones sostenidas.</p>
-                <small>Red vial 2018</small>
-              </article>
-              <article class="fan-card blue" data-card="2">
+              <article class="fan-card red active" data-card="0" role="button" tabindex="0" aria-expanded="false">
                 <small class="card-kicker">Componente I</small>
                 <strong>139</strong>
-                <span>proyectos de mejoramiento y rehabilitacion</span>
-                <p>2,497 km orientados a integracion e inclusion social.</p>
-                <small>S/ 3,019 millones</small>
+                <span>Mejoramiento y rehabilitacion</span>
+                <p>Infraestructura vial vecinal para integracion e inclusion social.</p>
+                <p class="more">Alcance referencial: 2,497 km y S/ 3,019 millones para recuperar transitabilidad en corredores vecinales prioritarios.</p>
+                <small class="tap">Click para expandir</small>
               </article>
-              <article class="fan-card amber" data-card="3">
+              <article class="fan-card green" data-card="1" role="button" tabindex="0" aria-expanded="false">
                 <small class="card-kicker">Componente II</small>
                 <strong>121</strong>
-                <span>mantenimientos de infraestructura vial</span>
-                <p>2,448 km para conservar transitabilidad y sostener el valor de la inversion.</p>
-                <small>S/ 362 millones</small>
+                <span>Mantenimiento vial subnacional</span>
+                <p>Conservacion de la infraestructura para sostener conectividad.</p>
+                <p class="more">Alcance referencial: 2,448 km y S/ 362 millones para evitar deterioro, interrupciones y perdida de valor de la inversion.</p>
+                <small class="tap">Click para expandir</small>
               </article>
-              <article class="fan-card green" data-card="4">
+              <article class="fan-card blue" data-card="2" role="button" tabindex="0" aria-expanded="false">
                 <small class="card-kicker">Componente III</small>
                 <strong>194</strong>
-                <span>planes viales provinciales participativos</span>
-                <p>Herramientas para que gobiernos locales ordenen prioridades y gestionen sus redes.</p>
-                <small>PVPP</small>
+                <span>Planes viales provinciales</span>
+                <p>Instrumentos participativos para priorizar la gestion vial local.</p>
+                <p class="more">Fortalece capacidades de gobiernos regionales y locales mediante asistencia tecnica, planificacion y toma de decisiones territoriales.</p>
+                <small class="tap">Click para expandir</small>
               </article>
-              <article class="fan-card red" data-card="5">
-                <small class="card-kicker">Resultado</small>
+              <article class="fan-card amber" data-card="3" role="button" tabindex="0" aria-expanded="false">
+                <small class="card-kicker">Componente IV</small>
                 <strong>PATS</strong>
-                <span>infraestructura, mantenimiento y gestion</span>
-                <p>Una agenda integrada para inclusion social, competitividad y descentralizacion.</p>
-                <small>Provias Descentralizado</small>
+                <span>Gestion y administracion</span>
+                <p>Seguimiento, coordinacion y soporte operativo del programa.</p>
+                <p class="more">Ordena la ejecucion de los componentes, la administracion del financiamiento y la articulacion institucional con Provias Descentralizado y el MTC.</p>
+                <small class="tap">Click para expandir</small>
               </article>
             </div>
           </div>
@@ -1282,53 +1325,39 @@
       const metricBLabel = document.getElementById('metric-b-label');
       const progressReadout = document.getElementById('progress-readout');
       const stageSteps = Array.from(document.querySelectorAll('.stage-step'));
+      const fanLayer = document.querySelector('.fan-layer');
+      const cardFan = document.querySelector('.card-fan');
       const fanCards = Array.from(document.querySelectorAll('.fan-card'));
       const scenes = [
         {
-          title: 'La brecha aparece primero.',
-          body: 'El recorrido empieza con una pregunta concreta: que tan transitable es el camino que conecta a una familia rural con servicios, mercados y oportunidades.',
-          metricA: '33,50%',
-          metricALabel: 'Percepcion adecuada',
-          metricB: '1 de 3',
-          metricBLabel: 'Hogares'
-        },
-        {
-          title: 'La red vecinal revela la escala.',
-          body: 'Menos del 2% de la red vial vecinal estaba pavimentada en 2018. El problema no era aislado: era estructural y territorial.',
-          metricA: '98,30%',
-          metricALabel: 'No pavimentada',
-          metricB: '111,886.6 km',
-          metricBLabel: 'Red no pavimentada'
-        },
-        {
-          title: 'La intervencion mejora el acceso.',
-          body: 'El componente de mejoramiento y rehabilitacion concentra proyectos para recuperar transitabilidad en corredores vecinales prioritarios.',
+          title: 'Componente I: recuperar transitabilidad.',
+          body: 'El primer frente concentra proyectos de mejoramiento y rehabilitacion para conectar centros poblados rurales con servicios y mercados.',
           metricA: '139',
           metricALabel: 'Proyectos',
           metricB: '2,497 km',
           metricBLabel: 'Intervenidos'
         },
         {
-          title: 'Mantener tambien es conectar.',
-          body: 'La infraestructura necesita continuidad. El mantenimiento evita que la inversion pierda valor y reduce interrupciones para la poblacion.',
+          title: 'Componente II: conservar la inversion.',
+          body: 'El mantenimiento evita que la via vuelva a deteriorarse y sostiene la conectividad durante la vida util de la intervencion.',
           metricA: '121',
           metricALabel: 'Mantenimientos',
           metricB: '2,448 km',
           metricBLabel: 'Conservados'
         },
         {
-          title: 'La gestion local sostiene el cambio.',
-          body: 'Los planes viales provinciales participativos convierten datos, prioridades y capacidades locales en decisiones de gestion vial.',
+          title: 'Componente III: planificar desde el territorio.',
+          body: 'Los planes viales provinciales participativos fortalecen capacidades locales y ayudan a ordenar prioridades de inversion.',
           metricA: '194',
           metricALabel: 'PVPP',
           metricB: 'Gestion',
-          metricBLabel: 'Descentralizada'
+          metricBLabel: 'Local'
         },
         {
-          title: 'Una agenda integral para el territorio.',
-          body: 'PATS integra infraestructura, mantenimiento y gestion para reducir aislamiento, facilitar servicios y fortalecer competitividad rural.',
+          title: 'Componente IV: asegurar la ejecucion.',
+          body: 'La gestion del programa articula administracion, seguimiento y coordinacion institucional para sostener los resultados.',
           metricA: 'PATS',
-          metricALabel: 'Programa',
+          metricALabel: 'Gestion',
           metricB: 'MTC',
           metricBLabel: 'Provias Descentralizado'
         }
@@ -1414,23 +1443,34 @@
 
       function updateFan(progress, activeStep) {
         const mobile = vpW < 720;
-        const spreadX = mobile ? 54 : 150;
-        const spreadY = mobile ? 8 : 28;
-        const maxRotZ = mobile ? 8 : 18;
-        const maxRotY = mobile ? 18 : 42;
+        const spreadX = mobile ? 60 : 128;
+        const spreadY = mobile ? 10 : 24;
+        const maxRotZ = mobile ? 9 : 15;
+        const maxRotY = mobile ? 18 : 32;
+        const visible = progress > .08 && progress < .96;
+        const easedOpen = clamp((progress - .08) / .24, 0, 1);
         const sceneProgress = progress * (scenes.length - 1);
+
+        fanLayer.style.setProperty('--fan-alpha', visible ? '1' : '0');
+        fanLayer.classList.toggle('is-visible', visible);
+        if (!visible) {
+          cardFan.classList.remove('has-expanded');
+          fanCards.forEach(card => {
+            card.classList.remove('expanded');
+            card.setAttribute('aria-expanded', 'false');
+          });
+        }
 
         fanCards.forEach((card, index) => {
           const offset = index - sceneProgress;
           const abs = Math.abs(offset);
-          const open = clamp(progress * 1.35, 0, 1);
-          const x = offset * spreadX * open;
-          const y = Math.abs(offset) * spreadY * open;
-          const z = (scenes.length - abs) * 18;
+          const x = offset * spreadX * easedOpen;
+          const y = Math.abs(offset) * spreadY * easedOpen;
+          const z = (scenes.length - abs) * 24;
           const rotateY = clamp(offset * -maxRotY, -maxRotY, maxRotY);
           const rotateZ = clamp(offset * maxRotZ, -maxRotZ, maxRotZ);
-          const scale = 1 - Math.min(abs * .055, .22);
-          const alpha = clamp(1 - Math.max(0, abs - 2.8) * .18, .36, 1);
+          const scale = 1 - Math.min(abs * .045, .16);
+          const alpha = visible ? clamp(1 - Math.max(0, abs - 2.2) * .22, .5, 1) : 0;
 
           card.style.setProperty('--x', x.toFixed(1) + 'px');
           card.style.setProperty('--y', y.toFixed(1) + 'px');
@@ -1442,6 +1482,39 @@
           card.classList.toggle('active', index === activeStep);
         });
       }
+
+      function toggleCard(card) {
+        const willExpand = !card.classList.contains('expanded');
+        fanCards.forEach(item => {
+          item.classList.remove('expanded');
+          item.setAttribute('aria-expanded', 'false');
+        });
+        cardFan.classList.toggle('has-expanded', willExpand);
+        if (willExpand) {
+          card.classList.add('expanded');
+          card.setAttribute('aria-expanded', 'true');
+        }
+      }
+
+      fanCards.forEach(card => {
+        card.addEventListener('click', () => toggleCard(card));
+        card.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleCard(card);
+          }
+        });
+      });
+
+      window.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+          cardFan.classList.remove('has-expanded');
+          fanCards.forEach(card => {
+            card.classList.remove('expanded');
+            card.setAttribute('aria-expanded', 'false');
+          });
+        }
+      });
 
       function updateReadouts(idx, progress) {
         const pctValue = Math.round(progress * 100);

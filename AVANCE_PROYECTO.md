@@ -199,6 +199,25 @@ Direccion para la siguiente implementacion:
 - Agregar estado expandido por clic con mas detalle del componente.
 - Mantener el video como una sola pieza de fondo y la interaccion principal por scroll.
 
+### Implementacion corregida del 3D Card Fan
+
+Se ajusto el fan de cartas segun la referencia compartida:
+
+- El fan queda dentro del `#sticky-stage`, superpuesto al video/canvas.
+- El fan inicia oculto y solo aparece dentro del tramo del video.
+- Se redujo a 4 cartas, una por componente PATS.
+- Las cartas usan estilo oscuro/translucido, borde sutil y profundidad 3D.
+- La apertura del abanico se calcula con el avance del scroll.
+- Cada carta es clicable y puede expandirse para mostrar informacion adicional.
+- `Escape` cierra una carta expandida.
+
+Cartas implementadas:
+
+- Componente I: Mejoramiento y rehabilitacion.
+- Componente II: Mantenimiento vial subnacional.
+- Componente III: Planes viales provinciales participativos.
+- Componente IV: Gestion y administracion del programa.
+
 ## Estado de Git
 
 Repositorio inicializado en esta carpeta.
