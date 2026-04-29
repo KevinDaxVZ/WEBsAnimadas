@@ -210,6 +210,7 @@ Se ajusto el fan de cartas segun la referencia compartida:
 - La apertura del abanico se calcula con el avance del scroll.
 - Cada carta es clicable y puede expandirse para mostrar informacion adicional.
 - `Escape` cierra una carta expandida.
+- Se refino el apilado visual para que la carta activa quede por encima, con menor solapamiento de textos y apertura mas clara del abanico.
 
 Cartas implementadas:
 

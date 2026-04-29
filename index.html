@@ -645,7 +645,7 @@
         rotateZ(var(--rz))
         scale(var(--scale));
       transform-style: preserve-3d;
-      transition: box-shadow .25s ease, opacity .25s ease, filter .25s ease;
+      transition: transform .22s ease-out, box-shadow .25s ease, opacity .25s ease, filter .25s ease;
       overflow: hidden;
       cursor: pointer;
       pointer-events: auto;
@@ -727,7 +727,7 @@
     .fan-card strong {
       margin-top: 18px;
       color: var(--accent, var(--red));
-      font-size: clamp(44px, 6vw, 76px);
+      font-size: clamp(40px, 5vw, 64px);
       line-height: .9;
       font-weight: 850;
     }
@@ -735,7 +735,7 @@
     .fan-card span {
       margin-top: 14px;
       color: rgba(255, 255, 255, .96);
-      font-size: 20px;
+      font-size: 18px;
       line-height: 1.14;
       font-weight: 850;
     }
@@ -743,7 +743,7 @@
     .fan-card p {
       margin-top: 16px;
       color: rgba(255, 255, 255, .7);
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.58;
       font-weight: 650;
     }
@@ -967,6 +967,10 @@
         min-height: 320px;
         padding: 16px;
       }
+
+      .fan-card strong {
+        font-size: clamp(38px, 7vw, 58px);
+      }
     }
 
     @media (max-width: 620px) {
@@ -1019,6 +1023,10 @@
       .fan-card {
         width: min(230px, 72vw);
         min-height: 300px;
+      }
+
+      .fan-card strong {
+        font-size: clamp(36px, 13vw, 54px);
       }
 
       .fan-card.expanded {
@@ -1443,12 +1451,12 @@
 
       function updateFan(progress, activeStep) {
         const mobile = vpW < 720;
-        const spreadX = mobile ? 60 : 128;
-        const spreadY = mobile ? 10 : 24;
-        const maxRotZ = mobile ? 9 : 15;
-        const maxRotY = mobile ? 18 : 32;
+        const spreadX = mobile ? 72 : 178;
+        const spreadY = mobile ? 12 : 30;
+        const maxRotZ = mobile ? 10 : 18;
+        const maxRotY = mobile ? 20 : 38;
         const visible = progress > .08 && progress < .96;
-        const easedOpen = clamp((progress - .08) / .24, 0, 1);
+        const easedOpen = clamp((progress - .08) / .16, 0, 1);
         const sceneProgress = progress * (scenes.length - 1);
 
         fanLayer.style.setProperty('--fan-alpha', visible ? '1' : '0');
@@ -1470,7 +1478,8 @@
           const rotateY = clamp(offset * -maxRotY, -maxRotY, maxRotY);
           const rotateZ = clamp(offset * maxRotZ, -maxRotZ, maxRotZ);
           const scale = 1 - Math.min(abs * .045, .16);
-          const alpha = visible ? clamp(1 - Math.max(0, abs - 2.2) * .22, .5, 1) : 0;
+          const active = index === activeStep;
+          const alpha = visible ? (active ? 1 : clamp(1 - Math.max(0, abs - 1.4) * .32, .38, .76)) : 0;
 
           card.style.setProperty('--x', x.toFixed(1) + 'px');
           card.style.setProperty('--y', y.toFixed(1) + 'px');
@@ -1479,7 +1488,8 @@
           card.style.setProperty('--rz', rotateZ.toFixed(1) + 'deg');
           card.style.setProperty('--scale', scale.toFixed(3));
           card.style.setProperty('--alpha', alpha.toFixed(3));
-          card.classList.toggle('active', index === activeStep);
+          card.style.zIndex = active ? '40' : String(Math.max(1, 24 - Math.round(abs * 6)));
+          card.classList.toggle('active', active);
         });
       }
 
