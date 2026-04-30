@@ -7,3 +7,11 @@ desktop.ini
 .idea/
 *.log
 
+# API keys - nunca subir
+api_veo3.txt
+
+# Clips intermedios (solo subir el video final)
+video_clips/
+clip_01.mp4
+clip_07.mp4
+
