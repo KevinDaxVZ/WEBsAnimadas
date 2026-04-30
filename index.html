@@ -623,6 +623,7 @@
       --rz: 0deg;
       --scale: 1;
       --alpha: 1;
+      --hy: 0px;
       position: absolute;
       top: 8%;
       left: 50%;
@@ -639,7 +640,7 @@
       opacity: var(--alpha);
       transform:
         translateX(calc(-50% + var(--x)))
-        translateY(var(--y))
+        translateY(calc(var(--y) + var(--hy)))
         translateZ(var(--z))
         rotateY(var(--ry))
         rotateZ(var(--rz))
@@ -650,6 +651,11 @@
       cursor: pointer;
       pointer-events: auto;
       backdrop-filter: blur(18px);
+    }
+
+    .fan-card:hover:not(.expanded):not(.active) {
+      --hy: -20px;
+      box-shadow: 0 44px 100px rgba(0, 0, 0, .55), 0 0 0 1px color-mix(in srgb, var(--accent, var(--red)) 38%, transparent);
     }
 
     .fan-card::before {
@@ -917,6 +923,95 @@
       flex-wrap: wrap;
     }
 
+    /* ── Static card fan section ── */
+    .fan-section {
+      padding: 100px 0 130px;
+      background: #0d1620;
+      border-bottom: 1px solid rgba(255, 255, 255, .07);
+      overflow: hidden;
+    }
+
+    .fan-section-lead {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 80px;
+    }
+
+    .fan-section-lead .kicker {
+      color: #ffced0;
+    }
+
+    .fan-section-lead h2 {
+      color: var(--white);
+      margin-top: 14px;
+    }
+
+    .fan-section-lead .body-copy {
+      color: rgba(255, 255, 255, .68);
+      margin-top: 18px;
+    }
+
+    .sfan-wrap {
+      position: relative;
+      height: 500px;
+      perspective: 1300px;
+      perspective-origin: 50% 45%;
+    }
+
+    .sfan {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(980px, calc(100vw - 48px));
+      height: 100%;
+      transform: translateX(-50%);
+      transform-style: preserve-3d;
+    }
+
+    /* Map static fan vars to the fan-card CSS variable transform */
+    .sfan .fan-card {
+      --x: var(--ox, 0px);
+      --y: var(--oy, 0px);
+      --z: var(--oz, 0px);
+      --ry: var(--ory, 0deg);
+      --rz: var(--orz, 0deg);
+      --scale: var(--os, 1);
+      --alpha: 1;
+    }
+
+    .sfan .fan-card[data-card="0"] { --ox: -255px; --oy: 50px; --oz: 0px;  --ory: 14deg;  --orz: -24deg; --os: 0.88; z-index: 1; }
+    .sfan .fan-card[data-card="1"] { --ox:  -82px; --oy: 17px; --oz: 30px; --ory:  5deg;  --orz:  -8deg; --os: 0.96; z-index: 2; }
+    .sfan .fan-card[data-card="2"] { --ox:   82px; --oy: 17px; --oz: 30px; --ory:  -5deg; --orz:   8deg; --os: 0.96; z-index: 3; }
+    .sfan .fan-card[data-card="3"] { --ox:  255px; --oy: 50px; --oz: 0px;  --ory: -14deg; --orz:  24deg; --os: 0.88; z-index: 4; }
+
+    .sfan .fan-card:hover:not(.expanded) {
+      --hy: -38px;
+      --ry: 0deg;
+      --rz: 0deg;
+      --scale: 1.06;
+      box-shadow: 0 44px 100px rgba(0, 0, 0, .55),
+        0 0 0 1px color-mix(in srgb, var(--accent, var(--red)) 40%, transparent);
+      z-index: 20;
+    }
+
+    .sfan.has-expanded .fan-card:not(.expanded) {
+      opacity: .22;
+      filter: blur(1px) brightness(.74);
+    }
+
+    .sfan-hint {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, .3);
+      font-size: 11px;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      white-space: nowrap;
+    }
+
     @media (max-width: 880px) {
       .nav {
         height: 64px;
@@ -956,6 +1051,12 @@
       .stage-story {
         width: min(300px, calc(100vw - 40px));
       }
+
+      .sfan-wrap { height: 460px; }
+      .sfan .fan-card[data-card="0"] { --ox: -155px; --ory: 12deg; --orz: -20deg; }
+      .sfan .fan-card[data-card="1"] { --ox:  -50px; }
+      .sfan .fan-card[data-card="2"] { --ox:   50px; }
+      .sfan .fan-card[data-card="3"] { --ox:  155px; --ory: -12deg; --orz:  20deg; }
 
       .card-fan {
         top: 22vh;
@@ -1010,6 +1111,12 @@
       .stage-step:not(.active) {
         display: none;
       }
+
+      .sfan-wrap { height: 420px; }
+      .sfan .fan-card[data-card="0"] { --ox: -118px; --ory: 10deg; --orz: -17deg; }
+      .sfan .fan-card[data-card="1"] { --ox:  -38px; }
+      .sfan .fan-card[data-card="2"] { --ox:   38px; }
+      .sfan .fan-card[data-card="3"] { --ox:  118px; --ory: -10deg; --orz:  17deg; }
 
       .fan-layer {
         perspective-origin: 50% 34%;
@@ -1096,59 +1203,50 @@
       </div>
     </section>
 
-    <section id="programa" class="section intro">
+    <section id="programa" class="fan-section">
       <div class="wrap">
-        <div class="section-grid">
-          <div>
-            <div class="kicker">El problema</div>
-            <h2>La red vecinal sostiene la vida rural, pero llego con una brecha critica.</h2>
-          </div>
-          <p class="body-copy">El rediseño del PATS parte de una evidencia directa: la transitabilidad de los caminos vecinales condiciona el acceso a salud, educacion, mercados y servicios publicos. La intervencion no es solo obra; es presencia del Estado en territorios que necesitan conectarse mejor.</p>
+        <div class="fan-section-lead">
+          <div class="kicker">Componentes del programa</div>
+          <h2>Cuatro frentes de accion para conectar el Peru rural.</h2>
+          <p class="body-copy">El PATS articula infraestructura, mantenimiento y planificacion territorial en una agenda integrada de transporte subnacional.</p>
         </div>
-        <div class="problem-board">
-          <div class="problem-photo" aria-label="Camino vecinal intervenido"></div>
-          <div class="problem-data">
-            <div class="problem-callout">
-              <strong>33,50%</strong>
-              <span>Solo 1 de cada 3 hogares percibia que sus caminos vecinales estaban en condicion adecuada para transitar.</span>
-            </div>
-            <table class="data-table" aria-label="Estado de la red vial vecinal">
-              <thead>
-                <tr>
-                  <th>Red vial</th>
-                  <th>Kilometros</th>
-                  <th>Porcentaje</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Pavimentada</td>
-                  <td>1,906.2 km</td>
-                  <td>1,70%</td>
-                </tr>
-                <tr>
-                  <td>No pavimentada</td>
-                  <td>111,886.6 km</td>
-                  <td>98,30%</td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="component-summary">
-              <div class="summary-pill">
-                <strong>139</strong>
-                <span>Proyectos de mejoramiento y rehabilitacion.</span>
-              </div>
-              <div class="summary-pill">
-                <strong>121</strong>
-                <span>Mantenimientos de infraestructura vial.</span>
-              </div>
-              <div class="summary-pill">
-                <strong>194</strong>
-                <span>Planes viales provinciales participativos.</span>
-              </div>
-            </div>
-          </div>
+      </div>
+      <div class="sfan-wrap" aria-label="Componentes PATS interactivos">
+        <div class="sfan">
+          <article class="fan-card red" data-card="0" role="button" tabindex="0" aria-expanded="false">
+            <small class="card-kicker">Componente I</small>
+            <strong>139</strong>
+            <span>Mejoramiento y rehabilitacion</span>
+            <p>Infraestructura vial vecinal para integracion e inclusion social.</p>
+            <p class="more">Alcance referencial: 2,497 km y S/ 3,019 millones para recuperar transitabilidad en corredores vecinales prioritarios.</p>
+            <small class="tap">Click para expandir</small>
+          </article>
+          <article class="fan-card green" data-card="1" role="button" tabindex="0" aria-expanded="false">
+            <small class="card-kicker">Componente II</small>
+            <strong>121</strong>
+            <span>Mantenimiento vial subnacional</span>
+            <p>Conservacion de la infraestructura para sostener conectividad.</p>
+            <p class="more">Alcance referencial: 2,448 km y S/ 362 millones para evitar deterioro, interrupciones y perdida de valor de la inversion.</p>
+            <small class="tap">Click para expandir</small>
+          </article>
+          <article class="fan-card blue" data-card="2" role="button" tabindex="0" aria-expanded="false">
+            <small class="card-kicker">Componente III</small>
+            <strong>194</strong>
+            <span>Planes viales provinciales</span>
+            <p>Instrumentos participativos para priorizar la gestion vial local.</p>
+            <p class="more">Fortalece capacidades de gobiernos regionales y locales mediante asistencia tecnica, planificacion y toma de decisiones territoriales.</p>
+            <small class="tap">Click para expandir</small>
+          </article>
+          <article class="fan-card amber" data-card="3" role="button" tabindex="0" aria-expanded="false">
+            <small class="card-kicker">Componente IV</small>
+            <strong>PATS</strong>
+            <span>Gestion y administracion</span>
+            <p>Seguimiento, coordinacion y soporte operativo del programa.</p>
+            <p class="more">Ordena la ejecucion de los componentes, la administracion del financiamiento y la articulacion con Provias Descentralizado y el MTC.</p>
+            <small class="tap">Click para expandir</small>
+          </article>
         </div>
+        <p class="sfan-hint">Pasa el cursor sobre una carta · haz clic para expandir</p>
       </div>
     </section>
 
@@ -1226,42 +1324,6 @@
               <span>Gestion y administracion del programa.</span>
             </div>
           </div>
-          <div class="fan-layer" aria-label="Cartas interactivas de componentes PATS">
-            <div class="card-fan">
-              <article class="fan-card red active" data-card="0" role="button" tabindex="0" aria-expanded="false">
-                <small class="card-kicker">Componente I</small>
-                <strong>139</strong>
-                <span>Mejoramiento y rehabilitacion</span>
-                <p>Infraestructura vial vecinal para integracion e inclusion social.</p>
-                <p class="more">Alcance referencial: 2,497 km y S/ 3,019 millones para recuperar transitabilidad en corredores vecinales prioritarios.</p>
-                <small class="tap">Click para expandir</small>
-              </article>
-              <article class="fan-card green" data-card="1" role="button" tabindex="0" aria-expanded="false">
-                <small class="card-kicker">Componente II</small>
-                <strong>121</strong>
-                <span>Mantenimiento vial subnacional</span>
-                <p>Conservacion de la infraestructura para sostener conectividad.</p>
-                <p class="more">Alcance referencial: 2,448 km y S/ 362 millones para evitar deterioro, interrupciones y perdida de valor de la inversion.</p>
-                <small class="tap">Click para expandir</small>
-              </article>
-              <article class="fan-card blue" data-card="2" role="button" tabindex="0" aria-expanded="false">
-                <small class="card-kicker">Componente III</small>
-                <strong>194</strong>
-                <span>Planes viales provinciales</span>
-                <p>Instrumentos participativos para priorizar la gestion vial local.</p>
-                <p class="more">Fortalece capacidades de gobiernos regionales y locales mediante asistencia tecnica, planificacion y toma de decisiones territoriales.</p>
-                <small class="tap">Click para expandir</small>
-              </article>
-              <article class="fan-card amber" data-card="3" role="button" tabindex="0" aria-expanded="false">
-                <small class="card-kicker">Componente IV</small>
-                <strong>PATS</strong>
-                <span>Gestion y administracion</span>
-                <p>Seguimiento, coordinacion y soporte operativo del programa.</p>
-                <p class="more">Ordena la ejecucion de los componentes, la administracion del financiamiento y la articulacion institucional con Provias Descentralizado y el MTC.</p>
-                <small class="tap">Click para expandir</small>
-              </article>
-            </div>
-          </div>
           <div id="scroll-hint">Desplaza</div>
         </div>
       </div>
@@ -1311,6 +1373,39 @@
   </footer>
 
   <script>
+    // Static card fan
+    (() => {
+      const sfan = document.querySelector('.sfan');
+      if (!sfan) return;
+      const sCards = Array.from(sfan.querySelectorAll('.fan-card'));
+
+      function toggleSCard(card) {
+        const willExpand = !card.classList.contains('expanded');
+        sCards.forEach(c => { c.classList.remove('expanded'); c.setAttribute('aria-expanded', 'false'); });
+        sfan.classList.remove('has-expanded');
+        if (willExpand) {
+          card.classList.add('expanded');
+          card.setAttribute('aria-expanded', 'true');
+          sfan.classList.add('has-expanded');
+        }
+      }
+
+      sCards.forEach(card => {
+        card.addEventListener('click', () => toggleSCard(card));
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleSCard(card); }
+        });
+      });
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+          sCards.forEach(c => { c.classList.remove('expanded'); c.setAttribute('aria-expanded', 'false'); });
+          sfan.classList.remove('has-expanded');
+        }
+      });
+    })();
+
+    // Scroll-driven video animation
     (() => {
       const TOTAL_FRAMES = 192;
       const NATIVE_W = 1280;
@@ -1333,9 +1428,6 @@
       const metricBLabel = document.getElementById('metric-b-label');
       const progressReadout = document.getElementById('progress-readout');
       const stageSteps = Array.from(document.querySelectorAll('.stage-step'));
-      const fanLayer = document.querySelector('.fan-layer');
-      const cardFan = document.querySelector('.card-fan');
-      const fanCards = Array.from(document.querySelectorAll('.fan-card'));
       const scenes = [
         {
           title: 'Componente I: recuperar transitabilidad.',
@@ -1445,87 +1537,6 @@
         return TOTAL_FRAMES <= 1 ? 0 : idx / (TOTAL_FRAMES - 1);
       }
 
-      function clamp(value, min, max) {
-        return Math.max(min, Math.min(max, value));
-      }
-
-      function updateFan(progress, activeStep) {
-        const mobile = vpW < 720;
-        const spreadX = mobile ? 72 : 178;
-        const spreadY = mobile ? 12 : 30;
-        const maxRotZ = mobile ? 10 : 18;
-        const maxRotY = mobile ? 20 : 38;
-        const visible = progress > .08 && progress < .96;
-        const easedOpen = clamp((progress - .08) / .16, 0, 1);
-        const sceneProgress = progress * (scenes.length - 1);
-
-        fanLayer.style.setProperty('--fan-alpha', visible ? '1' : '0');
-        fanLayer.classList.toggle('is-visible', visible);
-        if (!visible) {
-          cardFan.classList.remove('has-expanded');
-          fanCards.forEach(card => {
-            card.classList.remove('expanded');
-            card.setAttribute('aria-expanded', 'false');
-          });
-        }
-
-        fanCards.forEach((card, index) => {
-          const offset = index - sceneProgress;
-          const abs = Math.abs(offset);
-          const x = offset * spreadX * easedOpen;
-          const y = Math.abs(offset) * spreadY * easedOpen;
-          const z = (scenes.length - abs) * 24;
-          const rotateY = clamp(offset * -maxRotY, -maxRotY, maxRotY);
-          const rotateZ = clamp(offset * maxRotZ, -maxRotZ, maxRotZ);
-          const scale = 1 - Math.min(abs * .045, .16);
-          const active = index === activeStep;
-          const alpha = visible ? (active ? 1 : clamp(1 - Math.max(0, abs - 1.4) * .32, .38, .76)) : 0;
-
-          card.style.setProperty('--x', x.toFixed(1) + 'px');
-          card.style.setProperty('--y', y.toFixed(1) + 'px');
-          card.style.setProperty('--z', z.toFixed(1) + 'px');
-          card.style.setProperty('--ry', rotateY.toFixed(1) + 'deg');
-          card.style.setProperty('--rz', rotateZ.toFixed(1) + 'deg');
-          card.style.setProperty('--scale', scale.toFixed(3));
-          card.style.setProperty('--alpha', alpha.toFixed(3));
-          card.style.zIndex = active ? '40' : String(Math.max(1, 24 - Math.round(abs * 6)));
-          card.classList.toggle('active', active);
-        });
-      }
-
-      function toggleCard(card) {
-        const willExpand = !card.classList.contains('expanded');
-        fanCards.forEach(item => {
-          item.classList.remove('expanded');
-          item.setAttribute('aria-expanded', 'false');
-        });
-        cardFan.classList.toggle('has-expanded', willExpand);
-        if (willExpand) {
-          card.classList.add('expanded');
-          card.setAttribute('aria-expanded', 'true');
-        }
-      }
-
-      fanCards.forEach(card => {
-        card.addEventListener('click', () => toggleCard(card));
-        card.addEventListener('keydown', event => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            toggleCard(card);
-          }
-        });
-      });
-
-      window.addEventListener('keydown', event => {
-        if (event.key === 'Escape') {
-          cardFan.classList.remove('has-expanded');
-          fanCards.forEach(card => {
-            card.classList.remove('expanded');
-            card.setAttribute('aria-expanded', 'false');
-          });
-        }
-      });
-
       function updateReadouts(idx, progress) {
         const pctValue = Math.round(progress * 100);
         const activeStep = Math.min(scenes.length - 1, Math.floor(progress * scenes.length));
@@ -1546,7 +1557,6 @@
         stageSteps.forEach((step, index) => {
           step.classList.toggle('active', index === activeStep);
         });
-        updateFan(progress, activeStep);
       }
 
       function draw(idx) {
